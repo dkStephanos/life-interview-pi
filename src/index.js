@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import ReactPlayer from 'react-player';
+import {
+	Accordion,
+	AccordionDetails,
+	AccordionSummary,
+	Card,
+	CardContent,
+	Button,
+} from '@material-ui/core';
 
 // fake data generator
 const getItems = (count, offset = 0) =>
@@ -83,20 +92,22 @@ function QuoteApp() {
 
 	return (
 		<div>
-			<button
-				type='button'
+			<ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
+
+			<Button
+				variant='outlined'
 				onClick={() => {
 					setState([...state, []]);
 				}}>
 				Add new group
-			</button>
-			<button
-				type='button'
+			</Button>
+			<Button
+				variant='outlined'
 				onClick={() => {
 					setState([...state, getItems(1)]);
 				}}>
 				Add new item
-			</button>
+			</Button>
 			<div style={{ display: 'flex' }}>
 				<DragDropContext onDragEnd={onDragEnd}>
 					{state.map((el, ind) => (
@@ -106,35 +117,41 @@ function QuoteApp() {
 									ref={provided.innerRef}
 									style={getListStyle(snapshot.isDraggingOver)}
 									{...provided.droppableProps}>
-									{el.map((item, index) => (
-										<Draggable key={item.id} draggableId={item.id} index={index}>
-											{(provided, snapshot) => (
-												<div
-													ref={provided.innerRef}
-													{...provided.draggableProps}
-													{...provided.dragHandleProps}
-													style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-													<div
-														style={{
-															display: 'flex',
-															justifyContent: 'space-around',
-														}}>
-														{item.content}
-														<button
-															type='button'
-															onClick={() => {
-																const newState = [...state];
-																newState[ind].splice(index, 1);
-																setState(newState.filter((group) => group.length));
+									<Accordion>
+										<AccordionSummary>List!</AccordionSummary>
+										{el.map((item, index) => (
+											<Draggable key={item.id} draggableId={item.id} index={index}>
+												{(provided, snapshot) => (
+													<Card
+														ref={provided.innerRef}
+														{...provided.draggableProps}
+														{...provided.dragHandleProps}
+														style={getItemStyle(
+															snapshot.isDragging,
+															provided.draggableProps.style
+														)}>
+														<CardContent
+															style={{
+																display: 'flex',
+																justifyContent: 'space-around',
 															}}>
-															delete
-														</button>
-													</div>
-												</div>
-											)}
-										</Draggable>
-									))}
-									{provided.placeholder}
+															{item.content}
+															<Button
+																variant='outlined'
+																onClick={() => {
+																	const newState = [...state];
+																	newState[ind].splice(index, 1);
+																	setState(newState.filter((group) => group.length));
+																}}>
+																delete
+															</Button>
+														</CardContent>
+													</Card>
+												)}
+											</Draggable>
+										))}
+										{provided.placeholder}
+									</Accordion>
 								</div>
 							)}
 						</Droppable>

@@ -9,6 +9,8 @@ import {
 	Button,
 } from '@material-ui/core';
 
+import interviewQuestions from '../../data/interviewQuestions';
+
 // fake data generator
 const getItems = (count, offset = 0) =>
 	Array.from({ length: count }, (v, k) => k).map((k) => ({

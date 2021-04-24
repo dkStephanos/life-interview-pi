@@ -7,7 +7,7 @@ import Background from './components/Background';
 function QuoteApp() {
 	return (
 		<Background>
-			<VideoPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
+			<VideoPlayer url='http://192.168.1.105:9000/mjpg' />
 			<InterviewQuestionList />
 		</Background>
 	);

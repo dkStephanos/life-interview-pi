@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import ReactPlayer from 'react-player';
 import {
 	Accordion,
 	AccordionDetails,
@@ -10,6 +9,7 @@ import {
 	CardContent,
 	Button,
 } from '@material-ui/core';
+import VideoPlayer from './components/VideoPlayer';
 
 // fake data generator
 const getItems = (count, offset = 0) =>
@@ -92,7 +92,7 @@ function QuoteApp() {
 
 	return (
 		<div>
-			<ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
+			<VideoPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
 
 			<Button
 				variant='outlined'

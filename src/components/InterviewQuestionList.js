@@ -64,6 +64,7 @@ const getListStyle = (isDraggingOver) => ({
 
 const InterviewQuestionList = (props) => {
 	const [state, setState] = useState([getItems(10), getItems(5, 10)]);
+	const [questions, setQuestions] = useState(interviewQuestions);
 
 	function onDragEnd(result) {
 		const { source, destination } = result;
@@ -106,46 +107,50 @@ const InterviewQuestionList = (props) => {
 				Add new item
 			</Button>
 			<div style={{ display: 'flex' }}>
+				{console.log('-------', questions)}
 				<DragDropContext onDragEnd={onDragEnd}>
-					{state.map((el, ind) => (
-						<Droppable key={ind} droppableId={`${ind}`}>
+					{Object.keys(questions).map((key) => (
+						<Droppable key={key} droppableId={`${key}`}>
 							{(provided, snapshot) => (
 								<div
 									ref={provided.innerRef}
 									style={getListStyle(snapshot.isDraggingOver)}
 									{...provided.droppableProps}>
+									{console.log(key, questions[key], '-------')}
 									<Accordion>
-										<AccordionSummary>List!</AccordionSummary>
-										{el.map((item, index) => (
-											<Draggable key={item.id} draggableId={item.id} index={index}>
-												{(provided, snapshot) => (
-													<Card
-														ref={provided.innerRef}
-														{...provided.draggableProps}
-														{...provided.dragHandleProps}
-														style={getItemStyle(
-															snapshot.isDragging,
-															provided.draggableProps.style
-														)}>
-														<CardContent
-															style={{
-																display: 'flex',
-																justifyContent: 'space-around',
-															}}>
-															{item.content}
-															<Button
-																variant='outlined'
-																onClick={() => {
-																	const newState = [...state];
-																	newState[ind].splice(index, 1);
-																	setState(newState.filter((group) => group.length));
+										<AccordionSummary>{key}</AccordionSummary>
+										{questions[key].map((item, index) => (
+											<div>
+												<Draggable key={item.id} draggableId={item.id} index={index}>
+													{(provided, snapshot) => (
+														<Card
+															ref={provided.innerRef}
+															{...provided.draggableProps}
+															{...provided.dragHandleProps}
+															style={getItemStyle(
+																snapshot.isDragging,
+																provided.draggableProps.style
+															)}>
+															<CardContent
+																style={{
+																	display: 'flex',
+																	justifyContent: 'space-around',
 																}}>
-																delete
-															</Button>
-														</CardContent>
-													</Card>
-												)}
-											</Draggable>
+																{item.content}
+																<Button
+																	variant='outlined'
+																	onClick={() => {
+																		const newState = [...state];
+																		newState[key].splice(index, 1);
+																		setState(newState.filter((group) => group.length));
+																	}}>
+																	delete
+																</Button>
+															</CardContent>
+														</Card>
+													)}
+												</Draggable>
+											</div>
 										))}
 										{provided.placeholder}
 									</Accordion>

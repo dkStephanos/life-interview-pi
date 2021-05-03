@@ -30,13 +30,14 @@ const reorder = (list, startIndex, endIndex) => {
 /**
  * Moves an item from one list to another list.
  */
-const move = (source, destination, droppableSource, droppableDestination) => {
+const move = (source, destination, droppableSource, droppableDestination, questions) => {
 	console.log(
 		'Inside move w/ source, destination, droppableSource, droppableDestination',
 		source,
 		destination,
 		droppableSource,
-		droppableDestination
+		droppableDestination,
+		questions
 	);
 	const sourceClone = Array.from(source);
 	const destClone = Array.from(destination);
@@ -59,7 +60,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 	margin: `0 0 ${grid}px 0`,
 
 	// change background colour if dragging
-	background: isDragging ? 'lightgreen' : 'grey',
+	background: isDragging ? 'lightgreen' : 'white',
 
 	// styles we need to apply on draggables
 	...draggableStyle,
@@ -81,21 +82,21 @@ const InterviewQuestionList = (props) => {
 		if (!destination) {
 			return;
 		}
-		const sKey = +source.droppableId;
-		const dKey = +destination.droppableId;
+		const sKey = source.droppableId;
+		const dKey = destination.droppableId;
 
 		if (sKey === dKey) {
 			const items = reorder(questions[sKey], source.index, destination.index);
-			const newState = [...questions];
+			const newState = questions;
 			newState[sKey] = items;
 			setQuestions(newState);
 		} else {
-			const result = move(questions[sKey], questions[dKey], source, destination);
-			const newState = [...questions];
+			const result = move(questions[sKey], questions[dKey], source, destination, questions);
+			const newState = questions;
 			newState[sKey] = result[sKey];
 			newState[dKey] = result[dKey];
 
-			setQuestions(newState.filter((group) => group.length));
+			setQuestions(newState);
 		}
 	}
 	return (
@@ -123,7 +124,6 @@ const InterviewQuestionList = (props) => {
 									ref={provided.innerRef}
 									style={getListStyle(snapshot.isDraggingOver)}
 									{...provided.droppableProps}>
-									{console.log(key, questions[key], '-------')}
 									<Accordion>
 										<AccordionSummary>{key}</AccordionSummary>
 										{questions[key].map((item, index) => (
@@ -134,16 +134,20 @@ const InterviewQuestionList = (props) => {
 															ref={provided.innerRef}
 															{...provided.draggableProps}
 															{...provided.dragHandleProps}
-															style={getItemStyle(
-																snapshot.isDragging,
-																provided.draggableProps.style
-															)}>
+															style={{
+																...getItemStyle(snapshot.isDragging, provided.draggableProps.style),
+																backgroundImage: "url('/leaf.jpg')",
+																backgroundSize: 'contain',
+																backgroundRepeat: 'no-repeat',
+															}}>
 															<CardContent
 																style={{
 																	display: 'flex',
 																	justifyContent: 'space-around',
 																}}>
-																<Typography component='body1'>{item.content}</Typography>
+																<Typography color='textPrimary' variant='h6'>
+																	{item.content}
+																</Typography>
 															</CardContent>
 															<CardActions>
 																<Button

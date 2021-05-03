@@ -1,14 +1,6 @@
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import {
-	Accordion,
-	CardActions,
-	AccordionSummary,
-	Card,
-	CardContent,
-	Button,
-	Typography,
-} from '@material-ui/core';
+import { Accordion, AccordionSummary } from '@material-ui/core';
 
 import interviewQuestions from '../data/interviewQuestions';
 import InterviewQuestion from './InterviewQuestion';
@@ -67,7 +59,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 	...draggableStyle,
 });
 const getListStyle = (isDraggingOver) => ({
-	background: isDraggingOver ? 'lightblue' : 'lightgrey',
+	background: isDraggingOver ? 'lightblue' : 'rgba(255,255,255,.5)',
 	padding: grid,
 	width: 250,
 });
@@ -130,7 +122,10 @@ const InterviewQuestionList = (props) => {
 									style={getListStyle(snapshot.isDraggingOver)}
 									{...provided.droppableProps}>
 									<Accordion>
-										<AccordionSummary>{key}</AccordionSummary>
+										<AccordionSummary
+											style={{ border: '2px solid lightgrey', background: 'rgba(255,255,255,.5)' }}>
+											{key}
+										</AccordionSummary>
 										{questions[key].map((item, index) => (
 											<div>
 												<Draggable key={key + '-' + item.id} draggableId={item.id} index={index}>

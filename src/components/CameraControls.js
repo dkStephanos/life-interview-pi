@@ -13,6 +13,7 @@ export default function CameraControls(props) {
 				top: '0px',
 				right: '0px',
 				border: '2px solid lightgrey',
+				background: 'rgba(255,255,255,.5)',
 			}}>
 			<Typography
 				variant='body1'

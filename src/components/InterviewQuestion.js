@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CardActions, Card, CardContent, Button, Typography } from '@material-ui/core';
 
 function InterviewQuestion(props) {
+	const [isRecording, setIsRecording] = useState(false);
+
 	return (
 		<Card
 			style={{
@@ -21,10 +23,12 @@ function InterviewQuestion(props) {
 			<CardActions>
 				<Button
 					variant='outlined'
-					onClick={() =>
-						props.handleRecord(props.questions[props.questionsKey][props.index].content)
-					}>
-					record
+					style={isRecording ? { background: 'crimson' } : {}}
+					onClick={() => {
+						props.handleRecord(props.questions[props.questionsKey][props.index].content);
+						setIsRecording(!isRecording);
+					}}>
+					{isRecording ? 'recording...' : 'record'}
 				</Button>
 				{/* <Button
 					variant='outlined'

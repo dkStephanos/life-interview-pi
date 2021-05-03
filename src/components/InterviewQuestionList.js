@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import {
 	Accordion,
-	AccordionDetails,
+	CardActions,
 	AccordionSummary,
 	Card,
 	CardContent,
 	Button,
+	Typography,
 } from '@material-ui/core';
 
 import interviewQuestions from '../data/interviewQuestions';
@@ -30,6 +31,13 @@ const reorder = (list, startIndex, endIndex) => {
  * Moves an item from one list to another list.
  */
 const move = (source, destination, droppableSource, droppableDestination) => {
+	console.log(
+		'Inside move w/ source, destination, droppableSource, droppableDestination',
+		source,
+		destination,
+		droppableSource,
+		droppableDestination
+	);
 	const sourceClone = Array.from(source);
 	const destClone = Array.from(destination);
 	const [removed] = sourceClone.splice(droppableSource.index, 1);
@@ -73,21 +81,21 @@ const InterviewQuestionList = (props) => {
 		if (!destination) {
 			return;
 		}
-		const sInd = +source.droppableId;
-		const dInd = +destination.droppableId;
+		const sKey = +source.droppableId;
+		const dKey = +destination.droppableId;
 
-		if (sInd === dInd) {
-			const items = reorder(state[sInd], source.index, destination.index);
-			const newState = [...state];
-			newState[sInd] = items;
-			setState(newState);
+		if (sKey === dKey) {
+			const items = reorder(questions[sKey], source.index, destination.index);
+			const newState = [...questions];
+			newState[sKey] = items;
+			setQuestions(newState);
 		} else {
-			const result = move(state[sInd], state[dInd], source, destination);
-			const newState = [...state];
-			newState[sInd] = result[sInd];
-			newState[dInd] = result[dInd];
+			const result = move(questions[sKey], questions[dKey], source, destination);
+			const newState = [...questions];
+			newState[sKey] = result[sKey];
+			newState[dKey] = result[dKey];
 
-			setState(newState.filter((group) => group.length));
+			setQuestions(newState.filter((group) => group.length));
 		}
 	}
 	return (
@@ -107,7 +115,6 @@ const InterviewQuestionList = (props) => {
 				Add new item
 			</Button> */}
 			<div style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
-				{console.log('-------', questions)}
 				<DragDropContext onDragEnd={onDragEnd}>
 					{Object.keys(questions).map((key) => (
 						<Droppable key={key} droppableId={`${key}`}>
@@ -136,7 +143,9 @@ const InterviewQuestionList = (props) => {
 																	display: 'flex',
 																	justifyContent: 'space-around',
 																}}>
-																{item.content}
+																<Typography component='body1'>{item.content}</Typography>
+															</CardContent>
+															<CardActions>
 																<Button
 																	variant='outlined'
 																	onClick={() => {
@@ -146,7 +155,7 @@ const InterviewQuestionList = (props) => {
 																	}}>
 																	delete
 																</Button>
-															</CardContent>
+															</CardActions>
 														</Card>
 													)}
 												</Draggable>

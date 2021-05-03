@@ -92,7 +92,7 @@ const InterviewQuestionList = (props) => {
 	}
 	return (
 		<div>
-			<Button
+			{/* <Button
 				variant='outlined'
 				onClick={() => {
 					setState([...state, []]);
@@ -105,8 +105,8 @@ const InterviewQuestionList = (props) => {
 					setState([...state, getItems(1)]);
 				}}>
 				Add new item
-			</Button>
-			<div style={{ display: 'flex' }}>
+			</Button> */}
+			<div style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
 				{console.log('-------', questions)}
 				<DragDropContext onDragEnd={onDragEnd}>
 					{Object.keys(questions).map((key) => (

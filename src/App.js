@@ -1,6 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import './App.css';
 import mqtt from 'mqtt';
+import { Container } from '@material-ui/core';
 
 //This object contains the log in info for the mqtt broker -- update to your own settings
 var options = {
@@ -40,12 +41,13 @@ function App(props) {
 	//The PS3Controller component takes various properties (directionFlags, namedFlags and analog stick values --- explained further in the PS3Controller component file)
 	//We use turnary operators to to detect the colon deliminator in the passed message and pass in either the values sent from the raspberry pi, or the default states
 	return (
-		<div className='App'>
-			<header className='App-header'>
-				<h1>Pi-Life-Interview</h1>
-				<p>{mesg}</p>
-			</header>
-			{props.children}
+		<div
+			className='App'
+			style={{
+				backgroundImage: "url('/background.jpg')",
+				filter: 'grayscale(80%)',
+			}}>
+			<Container className='App-header'>{props.children}</Container>
 		</div>
 	);
 }

@@ -21,22 +21,34 @@ export default function CameraControls(props) {
 			</Typography>
 			<Grid style={{ paddingBottom: '10px' }} container>
 				<Grid item xs={3}>
-					<Button style={{ width: '40px' }} variant='outlined'>
+					<Button
+						onClick={() => props.client.publish('pub/camera_controls', 'up')}
+						style={{ width: '40px' }}
+						variant='outlined'>
 						Up
 					</Button>
 				</Grid>
 				<Grid item xs={3}>
-					<Button style={{ width: '40px' }} variant='outlined'>
+					<Button
+						onClick={() => props.client.publish('pub/camera_controls', 'down')}
+						style={{ width: '40px' }}
+						variant='outlined'>
 						Down
 					</Button>
 				</Grid>
 				<Grid item xs={3}>
-					<Button style={{ width: '40px' }} variant='outlined'>
+					<Button
+						onClick={() => props.client.publish('pub/camera_controls', 'left')}
+						style={{ width: '40px' }}
+						variant='outlined'>
 						Left
 					</Button>
 				</Grid>
 				<Grid item xs={3}>
-					<Button style={{ width: '40px' }} variant='outlined'>
+					<Button
+						onClick={() => props.client.publish('pub/camera_controls', 'right')}
+						style={{ width: '40px' }}
+						variant='outlined'>
 						Right
 					</Button>
 				</Grid>

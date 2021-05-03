@@ -75,6 +75,10 @@ const InterviewQuestionList = (props) => {
 	const [state, setState] = useState([getItems(10), getItems(5, 10)]);
 	const [questions, setQuestions] = useState(interviewQuestions);
 
+	const handleRecord = (question) => {
+		console.log('Starting recording for ', question);
+	};
+
 	function onDragEnd(result) {
 		const { source, destination } = result;
 
@@ -128,7 +132,7 @@ const InterviewQuestionList = (props) => {
 										<AccordionSummary>{key}</AccordionSummary>
 										{questions[key].map((item, index) => (
 											<div>
-												<Draggable key={item.id} draggableId={item.id} index={index}>
+												<Draggable key={key + '-' + item.id} draggableId={item.id} index={index}>
 													{(provided, snapshot) => (
 														<Card
 															ref={provided.innerRef}
@@ -152,10 +156,15 @@ const InterviewQuestionList = (props) => {
 															<CardActions>
 																<Button
 																	variant='outlined'
+																	onClick={() => handleRecord(questions[key][index].content)}>
+																	record
+																</Button>
+																<Button
+																	variant='outlined'
 																	onClick={() => {
-																		const newState = [...state];
+																		const newState = questions;
 																		newState[key].splice(index, 1);
-																		setState(newState.filter((group) => group.length));
+																		setState(newState);
 																	}}>
 																	delete
 																</Button>

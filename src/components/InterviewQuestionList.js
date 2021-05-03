@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 
 import interviewQuestions from '../data/interviewQuestions';
+import InterviewQuestion from './InterviewQuestion';
 
 // fake data generator
 const getItems = (count, offset = 0) =>
@@ -134,42 +135,20 @@ const InterviewQuestionList = (props) => {
 											<div>
 												<Draggable key={key + '-' + item.id} draggableId={item.id} index={index}>
 													{(provided, snapshot) => (
-														<Card
+														<div
 															ref={provided.innerRef}
 															{...provided.draggableProps}
 															{...provided.dragHandleProps}
 															style={{
 																...getItemStyle(snapshot.isDragging, provided.draggableProps.style),
-																backgroundImage: "url('/leaf.jpg')",
-																backgroundSize: 'contain',
-																backgroundRepeat: 'no-repeat',
 															}}>
-															<CardContent
-																style={{
-																	display: 'flex',
-																	justifyContent: 'space-around',
-																}}>
-																<Typography color='textPrimary' variant='h6'>
-																	{item.content}
-																</Typography>
-															</CardContent>
-															<CardActions>
-																<Button
-																	variant='outlined'
-																	onClick={() => handleRecord(questions[key][index].content)}>
-																	record
-																</Button>
-																<Button
-																	variant='outlined'
-																	onClick={() => {
-																		const newState = questions;
-																		newState[key].splice(index, 1);
-																		setState(newState);
-																	}}>
-																	delete
-																</Button>
-															</CardActions>
-														</Card>
+															<InterviewQuestion
+																item={item}
+																index={index}
+																questions={questions}
+																questionsKey={key}
+																handleRecord={handleRecord}></InterviewQuestion>
+														</div>
 													)}
 												</Draggable>
 											</div>

@@ -47,7 +47,7 @@ function App(props) {
 				backgroundImage: "url('/background.jpg')",
 				filter: 'grayscale(80%)',
 			}}>
-			<Container className='App-header'>{props.children}</Container>
+			<Container className='App-body'>{props.children}</Container>
 		</div>
 	);
 }

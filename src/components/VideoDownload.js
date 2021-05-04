@@ -14,7 +14,7 @@ export default function VideoDownload(props) {
 				background: 'rgba(255,255,255,.5)',
 			}}>
 			<Button
-				onClick={() => window.open('http://192.168.1.106/html/preview.php')}
+				onClick={() => window.open(process.env.REACT_APP_RASPBERRY_PI_URL + '/html/preview.php')}
 				variant='outlined'>
 				Download Recordings
 			</Button>

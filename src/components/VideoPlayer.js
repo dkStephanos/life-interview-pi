@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SOURCE_ADDRESS = 'http://192.168.1.106/html/cam_pic.php?time=';
+const SOURCE_ADDRESS = process.env.REACT_APP_RASPBERRY_PI_URL + '/html/cam_pic.php?time=';
 
 const VideoPlayer = (props) => {
 	let preview_delay = 4000;

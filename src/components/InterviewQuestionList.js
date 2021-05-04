@@ -70,8 +70,8 @@ const InterviewQuestionList = (props) => {
 	const handleRecord = (question, isRecording) => {
 		console.log('Starting recording for ', question);
 		let wind = isRecording
-			? window.open('http://192.168.1.106/html/cmd_pipe.php?cmd=ca%200')
-			: window.open('http://192.168.1.106/html/cmd_pipe.php?cmd=ca%201');
+			? window.open(process.env.REACT_APP_RASPBERRY_PI_URL + '/html/cmd_pipe.php?cmd=ca%200')
+			: window.open(process.env.REACT_APP_RASPBERRY_PI_URL + '/html/cmd_pipe.php?cmd=ca%201');
 		setTimeout(() => {
 			wind.close();
 		}, 10);

@@ -65,11 +65,16 @@ const getListStyle = (isDraggingOver) => ({
 });
 
 const InterviewQuestionList = (props) => {
-	const [state, setState] = useState([getItems(10), getItems(5, 10)]);
 	const [questions, setQuestions] = useState(interviewQuestions);
 
-	const handleRecord = (question) => {
+	const handleRecord = (question, isRecording) => {
 		console.log('Starting recording for ', question);
+		let wind = isRecording
+			? window.open('http://192.168.1.106/html/cmd_pipe.php?cmd=ca%200')
+			: window.open('http://192.168.1.106/html/cmd_pipe.php?cmd=ca%201');
+		setTimeout(() => {
+			wind.close();
+		}, 10);
 	};
 
 	function onDragEnd(result) {

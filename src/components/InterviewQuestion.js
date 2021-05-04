@@ -25,7 +25,10 @@ function InterviewQuestion(props) {
 					variant='outlined'
 					style={isRecording ? { background: 'crimson' } : {}}
 					onClick={() => {
-						props.handleRecord(props.questions[props.questionsKey][props.index].content);
+						props.handleRecord(
+							props.questions[props.questionsKey][props.index].content,
+							isRecording
+						);
 						setIsRecording(!isRecording);
 					}}>
 					{isRecording ? 'recording...' : 'record'}

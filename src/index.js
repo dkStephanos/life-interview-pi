@@ -11,7 +11,7 @@ function QuoteApp() {
 		<App>
 			<VideoDownload></VideoDownload>
 			<CameraControls></CameraControls>
-			<VideoPlayer url='http://192.168.1.105:9000/mjpg' />
+			<VideoPlayer url='http://192.168.1.106:9000/mjpg' />
 			<InterviewQuestionList />
 		</App>
 	);

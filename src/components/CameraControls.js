@@ -3,8 +3,24 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+const crypto = require('crypto');
 
 export default function CameraControls(props) {
+	const algorithm = 'aes-256-ctr';
+	const secretKey = 'vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3';
+	const iv = crypto.randomBytes(16);
+
+	const encrypt = (text) => {
+		const cipher = crypto.createCipheriv(algorithm, secretKey, iv);
+
+		const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
+
+		return JSON.stringify({
+			iv: iv.toString('hex'),
+			content: encrypted.toString('hex'),
+		});
+	};
+
 	return (
 		<Container
 			style={{
@@ -23,7 +39,7 @@ export default function CameraControls(props) {
 			<Grid style={{ paddingBottom: '10px' }} container>
 				<Grid item xs={3}>
 					<Button
-						onClick={() => props.client.publish('pub/camera_controls', 'up')}
+						onClick={() => props.client.publish('pub/camera_controls', encrypt('up'))}
 						style={{ width: '40px' }}
 						variant='outlined'>
 						Up
@@ -31,7 +47,7 @@ export default function CameraControls(props) {
 				</Grid>
 				<Grid item xs={3}>
 					<Button
-						onClick={() => props.client.publish('pub/camera_controls', 'down')}
+						onClick={() => props.client.publish('pub/camera_controls', encrypt('down'))}
 						style={{ width: '40px' }}
 						variant='outlined'>
 						Down
@@ -39,7 +55,7 @@ export default function CameraControls(props) {
 				</Grid>
 				<Grid item xs={3}>
 					<Button
-						onClick={() => props.client.publish('pub/camera_controls', 'left')}
+						onClick={() => props.client.publish('pub/camera_controls', encrypt('left'))}
 						style={{ width: '40px' }}
 						variant='outlined'>
 						Left
@@ -47,7 +63,7 @@ export default function CameraControls(props) {
 				</Grid>
 				<Grid item xs={3}>
 					<Button
-						onClick={() => props.client.publish('pub/camera_controls', 'right')}
+						onClick={() => props.client.publish('pub/camera_controls', encrypt('right'))}
 						style={{ width: '40px' }}
 						variant='outlined'>
 						Right

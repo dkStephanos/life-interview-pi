@@ -10,7 +10,7 @@ var options = {
 };
 
 //Here, we declare the mqtt client, connecting with the options declared above using a websocket so we can connect via the browser
-var client = mqtt.connect('ws://192.168.1.105:9001/', options);
+var client = mqtt.connect(process.env.REACT_APP_MQTT_URL, options);
 
 //Here, we delcare the callback function for the connect. In this case, we want to go ahead and subscribe to the pub/data topic so we can recieve data from the raspberry pi
 //We also publish a success message that we can see in the browser to confirm a succesful connection

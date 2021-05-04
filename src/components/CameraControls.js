@@ -7,7 +7,7 @@ const crypto = require('crypto');
 
 export default function CameraControls(props) {
 	const algorithm = 'aes-256-ctr';
-	const secretKey = 'vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3';
+	const secretKey = process.env.REACT_APP_SECRET_KEY;
 	const iv = crypto.randomBytes(16);
 
 	const encrypt = (text) => {

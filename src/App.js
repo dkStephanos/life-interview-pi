@@ -5,8 +5,8 @@ import { Container } from '@material-ui/core';
 
 //This object contains the log in info for the mqtt broker -- update to your own settings
 var options = {
-	username: 'koiserve',
-	password: 'Tarnoff',
+	username: process.env.REACT_APP_MQTT_USERNAME,
+	password: process.env.REACT_APP_MQTT_PASSWORD,
 };
 
 //Here, we declare the mqtt client, connecting with the options declared above using a websocket so we can connect via the browser
@@ -15,9 +15,9 @@ var client = mqtt.connect(process.env.REACT_APP_MQTT_URL, options);
 //Here, we delcare the callback function for the connect. In this case, we want to go ahead and subscribe to the pub/data topic so we can recieve data from the raspberry pi
 //We also publish a success message that we can see in the browser to confirm a succesful connection
 client.on('connect', function () {
-	client.subscribe('pub/data', function (err) {
+	client.subscribe(process.env.REACT_APP_MQTT_TOPIC, function (err) {
 		if (!err) {
-			client.publish('pub/data', 'Connected to MQTT broker');
+			client.publish(process.env.REACT_APP_MQTT_TOPIC, 'Connected to MQTT broker');
 		}
 	});
 });

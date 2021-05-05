@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { CardActions, Card, CardContent, Button, Typography } from '@material-ui/core';
 
+// Provides the draggable interview question component
 function InterviewQuestion(props) {
+	// Internal state used to track wether or not a recording has been inititated
 	const [isRecording, setIsRecording] = useState(false);
 
+	// Returns the component that is rendered on screen
 	return (
 		<Card
 			style={{
@@ -24,6 +27,8 @@ function InterviewQuestion(props) {
 				<Button
 					variant='outlined'
 					style={isRecording ? { background: 'crimson' } : {}}
+					// This callback uses the handleRecord method as passed by its parent to initiate a recording with the content of this question as an id
+					// it then sets its own internal flag to monitor the record status, clicking again will stop the recording
 					onClick={() => {
 						props.handleRecord(
 							props.questions[props.questionsKey][props.index].content,
@@ -33,7 +38,9 @@ function InterviewQuestion(props) {
 					}}>
 					{isRecording ? 'recording...' : 'record'}
 				</Button>
-				{/* <Button
+				{
+					// Used to add new questions. FUTURE WORK
+					/* <Button
 					variant='outlined'
 					onClick={() => {
 						const newState = props.questions;
@@ -41,7 +48,8 @@ function InterviewQuestion(props) {
 						setState(newState);
 					}}>
 					delete
-				</Button> */}
+				</Button> */
+				}
 			</CardActions>
 		</Card>
 	);

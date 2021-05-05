@@ -1,5 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
+// A series of interview questions used to construct the lists
+// Questions all taken from: legacyproject.org
 const interviewQuestions = {
 	Childhood: [
 		{

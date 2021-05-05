@@ -1,17 +1,12 @@
 import React, { useState } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'; // Library used to enable drag and drop
 import { Accordion, AccordionSummary } from '@material-ui/core';
 
+// The component and data used for the actual questions
 import interviewQuestions from '../data/interviewQuestions';
 import InterviewQuestion from './InterviewQuestion';
 
-// fake data generator
-const getItems = (count, offset = 0) =>
-	Array.from({ length: count }, (v, k) => k).map((k) => ({
-		id: `item-${k + offset}-${new Date().getTime()}`,
-		content: `item ${k + offset}`,
-	}));
-
+// Callback used to rearange the interview questions within and between lists
 const reorder = (list, startIndex, endIndex) => {
 	const result = Array.from(list);
 	const [removed] = result.splice(startIndex, 1);
@@ -24,14 +19,6 @@ const reorder = (list, startIndex, endIndex) => {
  * Moves an item from one list to another list.
  */
 const move = (source, destination, droppableSource, droppableDestination, questions) => {
-	console.log(
-		'Inside move w/ source, destination, droppableSource, droppableDestination',
-		source,
-		destination,
-		droppableSource,
-		droppableDestination,
-		questions
-	);
 	const sourceClone = Array.from(source);
 	const destClone = Array.from(destination);
 	const [removed] = sourceClone.splice(droppableSource.index, 1);
@@ -46,6 +33,7 @@ const move = (source, destination, droppableSource, droppableDestination, questi
 };
 const grid = 8;
 
+// Used to style the list and questions
 const getItemStyle = (isDragging, draggableStyle) => ({
 	// some basic styles to make the items look a bit nicer
 	userSelect: 'none',
@@ -64,11 +52,13 @@ const getListStyle = (isDraggingOver) => ({
 	width: 250,
 });
 
+// The actual InterviewQuestionList component
 const InterviewQuestionList = (props) => {
+	// Internal state intiated from the interviewQuestions file
 	const [questions, setQuestions] = useState(interviewQuestions);
 
+	// The handleRecord callback passed through to the interview questions. Makes a call to the apache server to iniatiate/stop the recording
 	const handleRecord = (question, isRecording) => {
-		console.log('Starting recording for ', question);
 		let wind = isRecording
 			? window.open(process.env.REACT_APP_RASPBERRY_PI_URL + '/html/cmd_pipe.php?cmd=ca%200')
 			: window.open(process.env.REACT_APP_RASPBERRY_PI_URL + '/html/cmd_pipe.php?cmd=ca%201');
@@ -77,6 +67,7 @@ const InterviewQuestionList = (props) => {
 		}, 10);
 	};
 
+	// Callback that fires when an interview question is dropped. Identifies wether the list changed, and moves the cards around accordingly, updating state
 	function onDragEnd(result) {
 		const { source, destination } = result;
 
@@ -84,15 +75,19 @@ const InterviewQuestionList = (props) => {
 		if (!destination) {
 			return;
 		}
+
+		// If we dropped in a list, get the source and destination keys
 		const sKey = source.droppableId;
 		const dKey = destination.droppableId;
 
+		// If the keys match, reorder within the same lists and update state
 		if (sKey === dKey) {
 			const items = reorder(questions[sKey], source.index, destination.index);
 			const newState = questions;
 			newState[sKey] = items;
 			setQuestions(newState);
 		} else {
+			// If they don't, move the question to the new list, and then update everything
 			const result = move(questions[sKey], questions[dKey], source, destination, questions);
 			const newState = questions;
 			newState[sKey] = result[sKey];
@@ -101,9 +96,13 @@ const InterviewQuestionList = (props) => {
 			setQuestions(newState);
 		}
 	}
+
+	// Returns the presentational component, this is where we inject callbacks into the children
 	return (
 		<div>
-			{/* <Button
+			{
+				// Used to add aditional lists. FUTURE WORK
+				/* <Button
 				variant='outlined'
 				onClick={() => {
 					setState([...state, []]);
@@ -116,7 +115,8 @@ const InterviewQuestionList = (props) => {
 					setState([...state, getItems(1)]);
 				}}>
 				Add new item
-			</Button> */}
+			</Button> */
+			}
 			<div style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
 				<DragDropContext onDragEnd={onDragEnd}>
 					{Object.keys(questions).map((key) => (
@@ -131,28 +131,34 @@ const InterviewQuestionList = (props) => {
 											style={{ border: '2px solid lightgrey', background: 'rgba(255,255,255,.5)' }}>
 											{key}
 										</AccordionSummary>
-										{questions[key].map((item, index) => (
-											<div>
-												<Draggable key={key + '-' + item.id} draggableId={item.id} index={index}>
-													{(provided, snapshot) => (
-														<div
-															ref={provided.innerRef}
-															{...provided.draggableProps}
-															{...provided.dragHandleProps}
-															style={{
-																...getItemStyle(snapshot.isDragging, provided.draggableProps.style),
-															}}>
-															<InterviewQuestion
-																item={item}
-																index={index}
-																questions={questions}
-																questionsKey={key}
-																handleRecord={handleRecord}></InterviewQuestion>
-														</div>
-													)}
-												</Draggable>
-											</div>
-										))}
+										{
+											// Here we map through the questions, and create a component for each, passing them styles and the handleRecord callback
+											questions[key].map((item, index) => (
+												<div>
+													<Draggable key={key + '-' + item.id} draggableId={item.id} index={index}>
+														{(provided, snapshot) => (
+															<div
+																ref={provided.innerRef}
+																{...provided.draggableProps}
+																{...provided.dragHandleProps}
+																style={{
+																	...getItemStyle(
+																		snapshot.isDragging,
+																		provided.draggableProps.style
+																	),
+																}}>
+																<InterviewQuestion
+																	item={item}
+																	index={index}
+																	questions={questions}
+																	questionsKey={key}
+																	handleRecord={handleRecord}></InterviewQuestion>
+															</div>
+														)}
+													</Draggable>
+												</div>
+											))
+										}
 										{provided.placeholder}
 									</Accordion>
 								</div>

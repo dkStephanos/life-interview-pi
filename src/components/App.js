@@ -1,5 +1,5 @@
-import React, { useState, Fragment } from 'react';
-import './App.css';
+import React from 'react';
+import '../App.css';
 import mqtt from 'mqtt';
 import { Container } from '@material-ui/core';
 
@@ -22,10 +22,9 @@ client.on('connect', function () {
 	});
 });
 
-//This function returns the App component, which serves as a the interface for the mqtt client and the wrapper for the PS3Controller compnent
+//This function returns the App component, which serves as a the interface for the mqtt client
 function App(props) {
 	//Here, we delcare a variable to hold the message incoming from the mqtt broker and a callback to be performed upon receiving a message
-	//We log the message to the browser console, and set the message to the internal state of App, triggering a re-render so the new data can be injected into the PS3Controller via is properties
 	var note;
 	client.on('message', function (topic, message) {
 		note = message.toString();

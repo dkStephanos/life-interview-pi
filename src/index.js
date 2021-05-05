@@ -6,7 +6,8 @@ import CameraControls from './components/CameraControls';
 import VideoDownload from './components/VideoDownload';
 import App from './App';
 
-function QuoteApp() {
+// The wrapper for the dashboard, what is inserted into the dom
+function LifeInterviewDashboard() {
 	return (
 		<App>
 			<VideoDownload></VideoDownload>
@@ -18,4 +19,4 @@ function QuoteApp() {
 }
 
 const rootElement = document.getElementById('root');
-ReactDOM.render(<QuoteApp />, rootElement);
+ReactDOM.render(<LifeInterviewDashboard />, rootElement);

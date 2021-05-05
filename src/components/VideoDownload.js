@@ -1,8 +1,8 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 
+// A button that links to the apache implemented video recordings management screen
 export default function VideoDownload(props) {
 	return (
 		<Container

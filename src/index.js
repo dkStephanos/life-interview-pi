@@ -4,7 +4,7 @@ import InterviewQuestionList from './components/InterviewQuestionList';
 import VideoPlayer from './components/VideoPlayer';
 import CameraControls from './components/CameraControls';
 import VideoDownload from './components/VideoDownload';
-import App from './App';
+import App from './components/App';
 
 // The wrapper for the dashboard, what is inserted into the dom
 function LifeInterviewDashboard() {
